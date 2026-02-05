@@ -1,0 +1,7 @@
+{
+  "description": "Premium Beauty Salon Website with Booking System and AI Concierge.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "name": "Beuty web App"
+}
