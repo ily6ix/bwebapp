@@ -85,9 +85,9 @@ const SERVICES = [
     title: 'Hair Design',
     icon: <Scissors className="w-6 h-6" />,
     items: [
-      { name: 'Signature Haircut', price: '$85+', duration: '60 min' },
-      { name: 'Balayage & Glow', price: '$220+', duration: '180 min' },
-      { name: 'Keratin Treatment', price: '$300+', duration: '120 min' },
+      { name: 'Signature Haircut', price: 'R850+', duration: '60 min' },
+      { name: 'Balayage & Glow', price: 'R2200+', duration: '180 min' },
+      { name: 'Keratin Treatment', price: 'R3000+', duration: '120 min' },
     ]
   },
   {
@@ -95,9 +95,9 @@ const SERVICES = [
     title: 'Skin Therapy',
     icon: <Sparkles className="w-6 h-6" />,
     items: [
-      { name: 'HydraFacial Glow', price: '$150+', duration: '45 min' },
-      { name: 'Chemical Peel', price: '$120+', duration: '60 min' },
-      { name: 'Anti-Aging Facial', price: '$180+', duration: '90 min' },
+      { name: 'HydraFacial Glow', price: 'R1500+', duration: '45 min' },
+      { name: 'Chemical Peel', price: 'R1200+', duration: '60 min' },
+      { name: 'Anti-Aging Facial', price: 'R1800+', duration: '90 min' },
     ]
   },
   {
@@ -105,16 +105,16 @@ const SERVICES = [
     title: 'Nail Artistry',
     icon: <Heart className="w-6 h-6" />,
     items: [
-      { name: 'Gel Manicure', price: '$55+', duration: '60 min' },
-      { name: 'Luxury Pedicure', price: '$75+', duration: '75 min' },
-      { name: 'Nail Art Design', price: '$20+', duration: '30 min' },
+      { name: 'Gel Manicure', price: 'R550+', duration: '60 min' },
+      { name: 'Luxury Pedicure', price: 'R750+', duration: '75 min' },
+      { name: 'Nail Art Design', price: 'R200+', duration: '30 min' },
     ]
   }
 ];
 
 // --- Components ---
 
-const Navbar = ({ onOpenBooking }: { onOpenBooking: () => void }) => {
+const Navbar = ({ onOpenBooking, onOpenConsultant }: { onOpenBooking: () => void, onOpenConsultant: () => void }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -157,6 +157,14 @@ const Navbar = ({ onOpenBooking }: { onOpenBooking: () => void }) => {
               {activeSection === link.id && <motion.div layoutId="activeTab" className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#D4AF37]" initial={false} transition={{ type: "spring", stiffness: 380, damping: 30 }} />}
             </a>
           ))}
+          
+          <button 
+            onClick={onOpenConsultant} 
+            className={`text-sm uppercase tracking-[0.2em] flex items-center gap-1.5 transition-all duration-300 ${!isScrolled ? 'text-white/80 hover:text-[#D4AF37]' : 'text-gray-600 hover:text-[#D4AF37]'}`}
+          >
+            Consultant <Sparkles className="w-3.5 h-3.5" />
+          </button>
+
           <button onClick={onOpenBooking} className="bg-[#D4AF37] text-white px-8 py-2.5 rounded-full text-sm uppercase tracking-widest hover:bg-[#B59431] transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-[#D4AF37]/20">
             Book Now
           </button>
@@ -172,6 +180,12 @@ const Navbar = ({ onOpenBooking }: { onOpenBooking: () => void }) => {
               {navLinks.map((link) => (
                 <a key={link.name} href={link.href} onClick={() => setIsMenuOpen(false)} className={`text-2xl font-serif transition-colors ${activeSection === link.id ? 'text-[#D4AF37]' : 'text-gray-800'}`}>{link.name}</a>
               ))}
+              <button 
+                onClick={() => { setIsMenuOpen(false); onOpenConsultant(); }} 
+                className="text-2xl font-serif text-left flex items-center gap-2 text-gray-800 hover:text-[#D4AF37]"
+              >
+                AI Consultant <Sparkles className="w-5 h-5 text-[#D4AF37]" />
+              </button>
               <button onClick={() => { setIsMenuOpen(false); onOpenBooking(); }} className="bg-[#D4AF37] text-white py-4 rounded-2xl text-center font-bold uppercase tracking-widest text-sm">Book Online</button>
             </div>
           </motion.div>
@@ -206,7 +220,6 @@ const HomeSection = ({ onOpenBooking }: { onOpenBooking: () => void }) => {
         </Swiper>
       </div>
 
-      {/* Luxury Welcome Grid */}
       <div className="py-24 container mx-auto px-6">
         <div className="flex flex-col lg:flex-row gap-16 items-center">
           <div className="lg:w-1/2 grid grid-cols-2 gap-4">
@@ -233,7 +246,6 @@ const HomeSection = ({ onOpenBooking }: { onOpenBooking: () => void }) => {
         </div>
       </div>
 
-      {/* Path to Radiance */}
       <div className="bg-[#1A1A1A] py-24 text-white">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
@@ -266,7 +278,6 @@ const ContactSection = () => {
 
   return (
     <section id="contact" className="scroll-mt-20">
-      {/* Contact Header */}
       <div className="bg-[#1A1A1A] py-24 text-white border-b border-white/5">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
@@ -317,7 +328,6 @@ const ContactSection = () => {
         </div>
       </div>
 
-      {/* FAQ & Atmosphere */}
       <div className="bg-[#FDFBF7] py-24">
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row gap-20">
@@ -374,14 +384,12 @@ const ContactSection = () => {
   );
 };
 
-// ... (AboutSection, AIConcierge, BookingModal, ServicesSection remain identical or slightly styled) ...
-// (Retained existing components for brevity, logic remains same)
-
-const AIConcierge = () => {
+// AI Concierge as a Modal Component
+const ConsultantModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<{ role: 'user' | 'ai', text: string }[]>([
-    { role: 'ai', text: "Hello! I'm your Beauty Concierge. Describe your mood or skin concerns, and I'll recommend the perfect treatment for you." }
+    { role: 'ai', text: "Welcome to our Private Virtual Consultation. I am your Beauty Consultant. How can I assist you in crafting your signature look today?" }
   ]);
   const chatRef = useRef<HTMLDivElement>(null);
 
@@ -397,7 +405,7 @@ const AIConcierge = () => {
       const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
-        contents: `You are a professional luxury beauty salon concierge. Based on this request: "${userText}", recommend one of our services (Haircut, Balayage, HydraFacial, Anti-Aging Facial, Gel Manicure, etc.) and explain why it fits their needs. Keep it concise, friendly, and elegant.`,
+        contents: `You are a professional luxury beauty salon consultant. Based on this request: "${userText}", recommend one of our services (Haircut, Balayage, HydraFacial, Anti-Aging Facial, Gel Manicure, etc.) and explain why it fits their needs. Keep it concise, friendly, and elegant. All prices should be in ZAR (South African Rand), prefixed with 'R'.`,
       });
       setMessages(prev => [...prev, { role: 'ai', text: response.text || "I'm sorry, I couldn't process that. Try asking about a relaxing facial or a new hairstyle!" }]);
     } catch (error) {
@@ -407,24 +415,64 @@ const AIConcierge = () => {
     }
   };
 
+  if (!isOpen) return null;
+
   return (
-    <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-[#D4AF37]/20">
-      <div className="bg-[#D4AF37] p-4 text-white flex items-center gap-3">
-        <Bot className="w-6 h-6" />
-        <div><h4 className="font-bold leading-none">AI Beauty Consultant</h4><span className="text-[10px] uppercase tracking-widest opacity-80">Online & Ready</span></div>
-      </div>
-      <div ref={chatRef} className="h-64 overflow-y-auto p-4 space-y-4 bg-gray-50/50">
-        {messages.map((m, idx) => (
-          <div key={idx} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[80%] p-3 rounded-2xl text-sm ${m.role === 'user' ? 'bg-[#D4AF37] text-white rounded-tr-none' : 'bg-white border text-gray-800 rounded-tl-none'}`}>{m.text}</div>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+      <motion.div initial={{ scale: 0.9, opacity: 0, y: 20 }} animate={{ scale: 1, opacity: 1, y: 0 }} className="relative bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+        <button onClick={onClose} className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-full transition-colors z-10"><X className="w-6 h-6" /></button>
+        
+        <div className="bg-[#1A1A1A] p-8 text-white">
+          <div className="flex items-center gap-4">
+             <div className="w-12 h-12 bg-[#D4AF37]/20 rounded-2xl flex items-center justify-center text-[#D4AF37]">
+                <Sparkles className="w-6 h-6" />
+             </div>
+             <div>
+               <h3 className="text-2xl font-serif">Beauty Consultant</h3>
+               <p className="text-[10px] uppercase tracking-[0.3em] text-[#D4AF37] opacity-80 font-bold">Virtual Specialist</p>
+             </div>
           </div>
-        ))}
-        {loading && <div className="flex justify-start"><div className="bg-white border p-3 rounded-2xl rounded-tl-none flex items-center gap-2"><div className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full animate-bounce"></div><div className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full animate-bounce [animation-delay:0.2s]"></div><div className="w-1.5 h-1.5 bg-[#D4AF37] rounded-full animate-bounce [animation-delay:0.4s]"></div></div></div>}
-      </div>
-      <div className="p-4 border-t flex gap-2 bg-white">
-        <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleAsk()} placeholder="Ask for a recommendation..." className="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none" />
-        <button onClick={handleAsk} className="bg-[#D4AF37] text-white p-2 rounded-full hover:scale-105 transition-transform"><Send className="w-4 h-4" /></button>
-      </div>
+        </div>
+
+        <div ref={chatRef} className="flex-1 overflow-y-auto p-8 space-y-6 bg-[#FDFBF7]">
+          {messages.map((m, idx) => (
+            <div key={idx} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-[85%] p-5 rounded-3xl text-sm leading-relaxed ${m.role === 'user' ? 'bg-[#D4AF37] text-white rounded-tr-none shadow-lg shadow-[#D4AF37]/20' : 'bg-white border border-gray-100 text-[#1A1A1A] rounded-tl-none shadow-sm'}`}>
+                {m.text}
+              </div>
+            </div>
+          ))}
+          {loading && (
+            <div className="flex justify-start">
+              <div className="bg-white border border-gray-100 p-5 rounded-3xl rounded-tl-none flex items-center gap-2 shadow-sm">
+                <div className="w-2 h-2 bg-[#D4AF37] rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-[#D4AF37] rounded-full animate-bounce [animation-delay:0.2s]"></div>
+                <div className="w-2 h-2 bg-[#D4AF37] rounded-full animate-bounce [animation-delay:0.4s]"></div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="p-8 border-t border-gray-100 bg-white">
+          <div className="flex gap-3">
+            <input 
+              type="text" 
+              value={query} 
+              onChange={(e) => setQuery(e.target.value)} 
+              onKeyDown={(e) => e.key === 'Enter' && handleAsk()} 
+              placeholder="How can we elevate your beauty today?" 
+              className="flex-1 bg-gray-100 border-none rounded-2xl px-6 py-4 text-sm focus:ring-1 focus:ring-[#D4AF37] outline-none" 
+            />
+            <button 
+              onClick={handleAsk} 
+              className="bg-[#1A1A1A] text-white p-4 rounded-2xl hover:bg-[#D4AF37] transition-all transform hover:scale-105"
+            >
+              <Send className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 };
@@ -546,12 +594,16 @@ const AboutSection = () => (
 
 const App = () => {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isConsultantOpen, setIsConsultantOpen] = useState(false);
+
   return (
     <div className="relative min-h-screen">
-      <Navbar onOpenBooking={() => setIsBookingOpen(true)} />
+      <Navbar 
+        onOpenBooking={() => setIsBookingOpen(true)} 
+        onOpenConsultant={() => setIsConsultantOpen(true)}
+      />
       <main>
         <HomeSection onOpenBooking={() => setIsBookingOpen(true)} />
-        <div className="fixed bottom-8 right-8 z-40 w-full max-w-[350px] px-4 sm:px-0"><AIConcierge /></div>
         <ServicesSection />
         <AboutSection />
         <ContactSection />
@@ -565,7 +617,14 @@ const App = () => {
           <p className="text-xs tracking-widest uppercase">© {new Date().getFullYear()} THE BEAUTY CORNER. ALL RIGHTS RESERVED.</p>
         </div>
       </footer>
-      <AnimatePresence>{isBookingOpen && <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />}</AnimatePresence>
+      
+      <AnimatePresence>
+        {isBookingOpen && <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isConsultantOpen && <ConsultantModal isOpen={isConsultantOpen} onClose={() => setIsConsultantOpen(false)} />}
+      </AnimatePresence>
     </div>
   );
 };
